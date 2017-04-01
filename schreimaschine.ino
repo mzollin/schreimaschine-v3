@@ -7,12 +7,6 @@
 #include <stdint.h>
 #include <stdbool.h>
 
-#define MOD_NO {.shift = false, .code = false, .kb2 = false}
-#define MOD_SHIFT {.shift = true, .code = false, .kb2 = false}
-#define MOD_CODE {.shift = false, .code = true, .kb2 = false}
-#define MOD_KB2 {.shift = false, .code = false, .kb2 = true}
-#define UNDEFINED {0, 0, MOD_NO}
-
 // define selector inputs coming from keyboard controller
 const uint8_t IN_A = 14;
 const uint8_t IN_B = 15;
@@ -36,527 +30,269 @@ const uint8_t OUT_8 = 9;
 struct key {
     uint8_t in;
     uint8_t out;
-    struct {
-        bool shift : 1;
-        bool code : 1;
-        bool kb2 : 1;
-    } modifiers;
 };
 
-struct key keys[256] = {
+struct key keys[128] = {
     // NUL
-    UNDEFINED,
+    {0, 0},
     // SOH
-    UNDEFINED,
+    {0, 0},
     // STX
-    UNDEFINED,
+    {0, 0},
     // ETX
-    UNDEFINED,
+    {0, 0},
     // EOT
-    UNDEFINED,
+    {0, 0},
     // ENQ
-    UNDEFINED,
+    {0, 0},
     // ACK
-    UNDEFINED,
+    {0, 0},
     // BEL
-    UNDEFINED,
-    // BS
-    {IN_B, OUT_6, MOD_NO},
-    // HT
-    {IN_B, OUT_7, MOD_NO},
-    // LF
-    {IN_G, OUT_1, MOD_NO},
+    {0, 0},
+    // BS (backspace)
+    {IN_B, OUT_6},
+    // HT (tab)
+    {IN_B, OUT_7},
+    // LF (enter)
+    {IN_G, OUT_1},
     // VT
-    UNDEFINED,
+    {0, 0},
     // FF
-    UNDEFINED,
+    {0, 0},
     // CR
-    UNDEFINED,
+    {0, 0},
     // SO
-    UNDEFINED,
+    {0, 0},
     // SI
-    UNDEFINED,
+    {0, 0},
     // DLE
-    UNDEFINED,
+    {0, 0},
     // DC1
-    UNDEFINED,
+    {0, 0},
     // DC2
-    UNDEFINED,
+    {0, 0},
     // DC3
-    UNDEFINED,
+    {0, 0},
     // DC4
-    UNDEFINED,
+    {0, 0},
     // NAK
-    UNDEFINED,
+    {0, 0},
     // SYN
-    UNDEFINED,
+    {0, 0},
     // ETB
-    UNDEFINED,
+    {0, 0},
     // CAN
-    UNDEFINED,
+    {0, 0},
     // EM
-    UNDEFINED,
+    {0, 0},
     // SUB
-    UNDEFINED,
+    {0, 0},
     // ESC
-    UNDEFINED,
+    {0, 0},
     // FS
-    UNDEFINED,
+    {0, 0},
     // GS
-    UNDEFINED,
+    {0, 0},
     // RS
-    UNDEFINED,
+    {0, 0},
     // US
-    UNDEFINED,
+    {0, 0},
     // Space
-    {IN_A, OUT_6, MOD_NO},
-    // ! (Shift-1)
-    {IN_C, OUT_7, MOD_SHIFT},
-    // " (Shift-2)
-    {IN_E, OUT_7, MOD_SHIFT},
-    // # (KB2-7)
-    {IN_A, OUT_4, MOD_KB2},
-    // $ (Shift-4)
-    {IN_B, OUT_3, MOD_SHIFT},
-    // % (Shift-5)
-    {IN_A, OUT_3, MOD_SHIFT},
-    // & (Shift-6)
-    {IN_B, OUT_4, MOD_SHIFT},
-    // ' (Shift-3)
-    {IN_D, OUT_7, MOD_SHIFT},
-    // ( (Shift-8)
-    {IN_B, OUT_5, MOD_SHIFT},
-    // ) (Shift-9)
-    {IN_A, OUT_5, MOD_SHIFT},
-    // * (Shift-+)
-    {IN_F, OUT_1, MOD_NO},
+    {IN_A, OUT_6},
+    // !
+    {0, 0},
+    // "
+    {0, 0},
+    // # (code)
+    {IN_H, OUT_8},
+    // $
+    {0, 0},
+    // %
+    {0, 0},
+    // &
+    {0, 0},
+    // '
+    {IN_D, OUT_1},
+    // (
+    {0, 0},
+    // )
+    {0, 0},
+    // *
+    {0, 0},
     // +
-    {IN_F, OUT_1, MOD_NO},
+    {IN_F, OUT_1},
     // ,
-    {IN_G, OUT_5, MOD_NO},
+    {IN_G, OUT_5},
     // -
-    {IN_G, OUT_2, MOD_NO},
+    {IN_G, OUT_2},
     // .
-    {IN_H, OUT_2, MOD_NO},
-    // / (Shift-7)
-    {IN_A, OUT_4, MOD_SHIFT},
+    {IN_H, OUT_2},
+    // /
+    {0, 0},
     // 0
-    {IN_B, OUT_2, MOD_NO},
+    {IN_B, OUT_2},
     // 1
-    {IN_C, OUT_7, MOD_NO},
+    {IN_C, OUT_7},
     // 2
-    {IN_E, OUT_7, MOD_NO},
+    {IN_E, OUT_7},
     // 3
-    {IN_D, OUT_7, MOD_NO},
+    {IN_D, OUT_7},
     // 4
-    {IN_B, OUT_3, MOD_NO},
+    {IN_B, OUT_3},
     // 5
-    {IN_A, OUT_3, MOD_NO},
+    {IN_A, OUT_3},
     // 6
-    {IN_B, OUT_4, MOD_NO},
+    {IN_B, OUT_4},
     // 7
-    {IN_A, OUT_4, MOD_NO},
+    {IN_A, OUT_4},
     // 8
-    {IN_B, OUT_5, MOD_NO},
+    {IN_B, OUT_5},
     // 9
-    {IN_A, OUT_5, MOD_NO},
+    {IN_A, OUT_5},
     // :
-    {IN_H, OUT_2, MOD_SHIFT},
+    {0, 0},
     // ;
-    {IN_G, OUT_5, MOD_SHIFT},
+    {0, 0},
     // <
-    {IN_B, OUT_5, MOD_KB2},
+    {0, 0},
     // =
-    {IN_B, OUT_2, MOD_SHIFT},
+    {0, 0},
     // >
-    {IN_A, OUT_5, MOD_KB2},
+    {0, 0},
     // ?
-    {IN_A, OUT_2, MOD_SHIFT},
+    {0, 0},
     // @
-    UNDEFINED,
-    // A
-    {IN_E, OUT_8, MOD_SHIFT},
-    // B
-    {IN_H, OUT_4, MOD_SHIFT},
-    // C
-    {IN_H, OUT_3, MOD_SHIFT},
+    {0, 0},
+    // A (ä)
+    {IN_E, OUT_2},
+    // B (ss/?)
+    {IN_A, OUT_2},
+    // C (capslock)
+    {IN_B, OUT_8},
     // D
-    {IN_G, OUT_6, MOD_SHIFT},
-    // E
-    {IN_D, OUT_6, MOD_SHIFT},
-    // F
-    {IN_F, OUT_3, MOD_SHIFT},
+    {0, 0},
+    // E (backspace)
+    {IN_B, OUT_1},
+    // F (Rückführtaste/Schlange)
+    {IN_C, OUT_6},
     // G
-    {IN_E, OUT_3, MOD_SHIFT},
-    // H
-    {IN_F, OUT_4, MOD_SHIFT},
+    {0, 0},
+    // H (Rückschritttaste)
+    {IN_E, OUT_1},
     // I
-    {IN_C, OUT_5, MOD_SHIFT},
-    // J
-    {IN_E, OUT_4, MOD_SHIFT},
-    // K
-    {IN_F, OUT_5, MOD_SHIFT},
-    // L
-    {IN_E, OUT_5, MOD_SHIFT},
-    // M
-    {IN_H, OUT_5, MOD_SHIFT},
+    {0, 0},
+    // J (Halbzeilentaste)
+    {IN_H, OUT_1},
+    // K (Halbzeilentaste rückwärts)
+    {IN_A, OUT_1},
+    // L (Randlösetaste)
+    {IN_A, OUT_7},
+    // M (Mode)
+    {IN_C, OUT_1},
     // N
-    {IN_G, OUT_4, MOD_SHIFT},
-    // O
-    {IN_D, OUT_5, MOD_SHIFT},
+    {0, 0},
+    // O (ö)
+    {IN_F, OUT_2},
     // P
-    {IN_C, OUT_2, MOD_SHIFT},
+    {0, 0},
     // Q
-    {IN_F, OUT_7, MOD_SHIFT},
-    // R
-    {IN_C, OUT_3, MOD_SHIFT},
-    // S
-    {IN_F, OUT_6, MOD_SHIFT},
-    // T
-    {IN_D, OUT_3, MOD_SHIFT},
-    // U
-    {IN_D, OUT_4, MOD_SHIFT},
+    {0, 0},
+    // R (Randstelltaste)
+    {IN_A, OUT_8},
+    // S (Shift)
+    {IN_G, OUT_8},
+    // T (T+, Tabulator-Setztaste)
+    {IN_C, OUT_8},
+    // U (ü)
+    {IN_D, OUT_2},
     // V
-    {IN_G, OUT_3, MOD_SHIFT},
+    {0, 0},
     // W
-    {IN_E, OUT_6, MOD_SHIFT},
+    {0, 0},
     // X
-    {IN_H, OUT_6, MOD_SHIFT},
+    {0, 0},
     // Y
-    {IN_F, OUT_8, MOD_SHIFT},
+    {0, 0},
     // Z
-    {IN_C, OUT_4, MOD_SHIFT},
+    {0, 0},
     // [
-    UNDEFINED,
+    {0, 0},
     // backslash
-    UNDEFINED,
+    {0, 0},
     // ]
-    UNDEFINED,
+    {0, 0},
     // ^
-    UNDEFINED,
+    {0, 0},
     // _
-    {IN_G, OUT_2, MOD_SHIFT},
+    {0, 0},
     // `
-    {IN_D, OUT_1, MOD_SHIFT},
+    {0, 0},
     // a
-    {IN_E, OUT_8, MOD_NO},
+    {IN_E, OUT_8},
     // b
-    {IN_H, OUT_4, MOD_NO},
+    {IN_H, OUT_4},
     // c
-    {IN_H, OUT_3, MOD_NO},
+    {IN_H, OUT_3},
     // d
-    {IN_G, OUT_6, MOD_NO},
+    {IN_G, OUT_6},
     // e
-    {IN_D, OUT_6, MOD_NO},
+    {IN_D, OUT_6},
     // f
-    {IN_F, OUT_3, MOD_NO},
+    {IN_F, OUT_3},
     // g
-    {IN_E, OUT_3, MOD_NO},
+    {IN_E, OUT_3},
     // h
-    {IN_F, OUT_4, MOD_NO},
+    {IN_F, OUT_4},
     // i
-    {IN_C, OUT_5, MOD_NO},
+    {IN_C, OUT_5},
     // j
-    {IN_E, OUT_4, MOD_NO},
+    {IN_E, OUT_4},
     // k
-    {IN_F, OUT_5, MOD_NO},
+    {IN_F, OUT_5},
     // l
-    {IN_E, OUT_5, MOD_NO},
+    {IN_E, OUT_5},
     // m
-    {IN_H, OUT_5, MOD_NO},
+    {IN_H, OUT_5},
     // n
-    {IN_G, OUT_4, MOD_NO},
+    {IN_G, OUT_4},
     // o
-    {IN_D, OUT_5, MOD_NO},
+    {IN_D, OUT_5},
     // p
-    {IN_C, OUT_2, MOD_NO},
+    {IN_C, OUT_2},
     // q
-    {IN_F, OUT_7, MOD_NO},
+    {IN_F, OUT_7},
     // r
-    {IN_C, OUT_3, MOD_NO},
+    {IN_C, OUT_3},
     // s
-    {IN_F, OUT_6, MOD_NO},
+    {IN_F, OUT_6},
     // t
-    {IN_D, OUT_3, MOD_NO},
+    {IN_D, OUT_3},
     // u
-    {IN_D, OUT_4, MOD_NO},
+    {IN_D, OUT_4},
     // v
-    {IN_G, OUT_3, MOD_NO},
+    {IN_G, OUT_3},
     // w
-    {IN_E, OUT_6, MOD_NO},
+    {IN_E, OUT_6},
     // x
-    {IN_H, OUT_6, MOD_NO},
+    {IN_H, OUT_6},
     // y
-    {IN_F, OUT_8, MOD_NO},
+    {IN_F, OUT_8},
     // z
-    {IN_C, OUT_4, MOD_NO},
+    {IN_C, OUT_4},
     // {
-    UNDEFINED,
+    {0, 0},
     // |
-    {IN_C, OUT_7, MOD_KB2},
+    {0, 0},
     // }
-    UNDEFINED,
+    {0, 0},
     // ~
-    UNDEFINED,
+    {0, 0},
     // DEL
-    UNDEFINED,
-    // 128
-    UNDEFINED,
-    // 129
-    UNDEFINED,
-    // 130
-    UNDEFINED,
-    // 131
-    UNDEFINED,
-    // 132
-    UNDEFINED,
-    // 133
-    UNDEFINED,
-    // 134
-    UNDEFINED,
-    // 135
-    UNDEFINED,
-    // 136
-    UNDEFINED,
-    // 137
-    UNDEFINED,
-    // 138
-    UNDEFINED,
-    // 139
-    UNDEFINED,
-    // 140
-    UNDEFINED,
-    // 141
-    UNDEFINED,
-    // 142
-    UNDEFINED,
-    // 143
-    UNDEFINED,
-    // 144
-    UNDEFINED,
-    // 145
-    UNDEFINED,
-    // 146
-    UNDEFINED,
-    // 147
-    UNDEFINED,
-    // 148
-    UNDEFINED,
-    // 149
-    UNDEFINED,
-    // 150
-    UNDEFINED,
-    // 151
-    UNDEFINED,
-    // 152
-    UNDEFINED,
-    // 153
-    UNDEFINED,
-    // 154
-    UNDEFINED,
-    // 155
-    UNDEFINED,
-    // 156
-    UNDEFINED,
-    // 157
-    UNDEFINED,
-    // 158
-    UNDEFINED,
-    // 159
-    UNDEFINED,
-    // 160          NO-BREAK SPACE
-    UNDEFINED,
-    // 161    ¡     INVERTED EXCLAMATION MARK
-    UNDEFINED,
-    // 162    ¢     CENT SIGN
-    UNDEFINED,
-    // 163    £     POUND SIGN
-    UNDEFINED,
-    // 164    ¤     CURRENCY SIGN
-    UNDEFINED,
-    // 165    ¥     YEN SIGN
-    UNDEFINED,
-    // 166    ¦     BROKEN BAR
-    UNDEFINED,
-    // 167    §     SECTION SIGN
-    {IN_B, OUT_3, MOD_KB2},
-    // 168    ¨     DIAERESIS
-    UNDEFINED,
-    // 169    ©     COPYRIGHT SIGN
-    UNDEFINED,
-    // 170    ª     FEMININE ORDINAL INDICATOR
-    UNDEFINED,
-    // 171    «     LEFT-POINTING DOUBLE ANGLE QUOTATION MARK
-    UNDEFINED,
-    // 172    ¬     NOT SIGN
-    UNDEFINED,
-    // 173          SOFT HYPHEN
-    UNDEFINED,
-    // 174    ®     REGISTERED SIGN
-    UNDEFINED,
-    // 175    ¯     MACRON
-    UNDEFINED,
-    // 176    °     DEGREE SIGN
-    {IN_A, OUT_3, MOD_KB2},
-    // 177    ±     PLUS-MINUS SIGN
-    UNDEFINED,
-    // 178    ²     SUPERSCRIPT TWO
-    {IN_E, OUT_7, MOD_KB2},
-    // 179    ³     SUPERSCRIPT THREE
-    {IN_D, OUT_7, MOD_KB2},
-    // 180    '     ACUTE ACCENT
-    {IN_D, OUT_1, MOD_SHIFT},
-    // 181    µ     MICRO SIGN
-    {IN_B, OUT_4, MOD_KB2},
-    // 182    ¶     PILCROW SIGN
-    UNDEFINED,
-    // 183    ·     MIDDLE DOT
-    UNDEFINED,
-    // 184    ¸     CEDILLA
-    UNDEFINED,
-    // 185    ¹     SUPERSCRIPT ONE
-    UNDEFINED,
-    // 186    º     MASCULINE ORDINAL INDICATOR
-    UNDEFINED,
-    // 187    »     RIGHT-POINTING DOUBLE ANGLE QUOTATION MARK
-    UNDEFINED,
-    // 188    ¼     VULGAR FRACTION ONE QUARTER
-    UNDEFINED,
-    // 189    ½     VULGAR FRACTION ONE HALF
-    UNDEFINED,
-    // 190    ¾     VULGAR FRACTION THREE QUARTERS
-    UNDEFINED,
-    // 191    ¿     INVERTED QUESTION MARK
-    UNDEFINED,
-    // 192    À     LATIN CAPITAL LETTER A WITH GRAVE
-    UNDEFINED,
-    // 193    Á     LATIN CAPITAL LETTER A WITH ACUTE
-    UNDEFINED,
-    // 194    Â     LATIN CAPITAL LETTER A WITH CIRCUMFLEX
-    UNDEFINED,
-    // 195    Ã     LATIN CAPITAL LETTER A WITH TILDE
-    UNDEFINED,
-    // 196    Ä     LATIN CAPITAL LETTER A WITH DIAERESIS
-    UNDEFINED,
-    // 197    Å     LATIN CAPITAL LETTER A WITH RING ABOVE
-    UNDEFINED,
-    // 198    Æ     LATIN CAPITAL LETTER AE
-    UNDEFINED,
-    // 199    Ç     LATIN CAPITAL LETTER C WITH CEDILLA
-    UNDEFINED,
-    // 200    È     LATIN CAPITAL LETTER E WITH GRAVE
-    UNDEFINED,
-    // 201    É     LATIN CAPITAL LETTER E WITH ACUTE
-    UNDEFINED,
-    // 202    Ê     LATIN CAPITAL LETTER E WITH CIRCUMFLEX
-    UNDEFINED,
-    // 203    Ë     LATIN CAPITAL LETTER E WITH DIAERESIS
-    UNDEFINED,
-    // 204    Ì     LATIN CAPITAL LETTER I WITH GRAVE
-    UNDEFINED,
-    // 205    Í     LATIN CAPITAL LETTER I WITH ACUTE
-    UNDEFINED,
-    // 206    Î     LATIN CAPITAL LETTER I WITH CIRCUMFLEX
-    UNDEFINED,
-    // 207    Ï     LATIN CAPITAL LETTER I WITH DIAERESIS
-    UNDEFINED,
-    // 208    Ð     LATIN CAPITAL LETTER ETH
-    UNDEFINED,
-    // 209    Ñ     LATIN CAPITAL LETTER N WITH TILDE
-    UNDEFINED,
-    // 210    Ò     LATIN CAPITAL LETTER O WITH GRAVE
-    UNDEFINED,
-    // 211    Ó     LATIN CAPITAL LETTER O WITH ACUTE
-    UNDEFINED,
-    // 212    Ô     LATIN CAPITAL LETTER O WITH CIRCUMFLEX
-    UNDEFINED,
-    // 213    Õ     LATIN CAPITAL LETTER O WITH TILDE
-    UNDEFINED,
-    // 214    Ö     LATIN CAPITAL LETTER O WITH DIAERESIS
-    UNDEFINED,
-    // 215    ×     MULTIPLICATION SIGN
-    UNDEFINED,
-    // 216    Ø     LATIN CAPITAL LETTER O WITH STROKE
-    UNDEFINED,
-    // 217    Ù     LATIN CAPITAL LETTER U WITH GRAVE
-    UNDEFINED,
-    // 218    Ú     LATIN CAPITAL LETTER U WITH ACUTE
-    UNDEFINED,
-    // 219    Û     LATIN CAPITAL LETTER U WITH CIRCUMFLEX
-    UNDEFINED,
-    // 220    Ü     LATIN CAPITAL LETTER U WITH DIAERESIS
-    UNDEFINED,
-    // 221    Ý     LATIN CAPITAL LETTER Y WITH ACUTE
-    UNDEFINED,
-    // 222    Þ     LATIN CAPITAL LETTER THORN
-    UNDEFINED,
-    // 223    ß     LATIN SMALL LETTER SHARP S
-    {IN_A, OUT_2, MOD_NO},
-    // 224    à     LATIN SMALL LETTER A WITH GRAVE
-    UNDEFINED,
-    // 225    á     LATIN SMALL LETTER A WITH ACUTE
-    UNDEFINED,
-    // 226    â     LATIN SMALL LETTER A WITH CIRCUMFLEX
-    UNDEFINED,
-    // 227    ã     LATIN SMALL LETTER A WITH TILDE
-    UNDEFINED,
-    // 228    ä     LATIN SMALL LETTER A WITH DIAERESIS
-    UNDEFINED,
-    // 229    å     LATIN SMALL LETTER A WITH RING ABOVE
-    UNDEFINED,
-    // 230    æ     LATIN SMALL LETTER AE
-    UNDEFINED,
-    // 231    ç     LATIN SMALL LETTER C WITH CEDILLA
-    UNDEFINED,
-    // 232    è     LATIN SMALL LETTER E WITH GRAVE
-    UNDEFINED,
-    // 233    é     LATIN SMALL LETTER E WITH ACUTE
-    UNDEFINED,
-    // 234    ê     LATIN SMALL LETTER E WITH CIRCUMFLEX
-    UNDEFINED,
-    // 235    ë     LATIN SMALL LETTER E WITH DIAERESIS
-    UNDEFINED,
-    // 236    ì     LATIN SMALL LETTER I WITH GRAVE
-    UNDEFINED,
-    // 237    í     LATIN SMALL LETTER I WITH ACUTE
-    UNDEFINED,
-    // 238    î     LATIN SMALL LETTER I WITH CIRCUMFLEX
-    UNDEFINED,
-    // 239    ï     LATIN SMALL LETTER I WITH DIAERESIS
-    UNDEFINED,
-    // 240    ð     LATIN SMALL LETTER ETH
-    UNDEFINED,
-    // 241    ñ     LATIN SMALL LETTER N WITH TILDE
-    UNDEFINED,
-    // 242    ò     LATIN SMALL LETTER O WITH GRAVE
-    UNDEFINED,
-    // 243    ó     LATIN SMALL LETTER O WITH ACUTE
-    UNDEFINED,
-    // 244    ô     LATIN SMALL LETTER O WITH CIRCUMFLEX
-    UNDEFINED,
-    // 245    õ     LATIN SMALL LETTER O WITH TILDE
-    UNDEFINED,
-    // 246    ö     LATIN SMALL LETTER O WITH DIAERESIS
-    UNDEFINED,
-    // 247    ÷     DIVISION SIGN
-    UNDEFINED,
-    // 248    ø     LATIN SMALL LETTER O WITH STROKE
-    UNDEFINED,
-    // 249    ù     LATIN SMALL LETTER U WITH GRAVE
-    UNDEFINED,
-    // 250    ú     LATIN SMALL LETTER U WITH ACUTE
-    UNDEFINED,
-    // 251    û     LATIN SMALL LETTER U WITH CIRCUMFLEX
-    UNDEFINED,
-    // 252    ü     LATIN SMALL LETTER U WITH DIAERESIS
-    UNDEFINED,
-    // 253    ý     LATIN SMALL LETTER Y WITH ACUTE
-    UNDEFINED,
-    // 254    þ     LATIN SMALL LETTER THORN
-    UNDEFINED,
-    // 255    ÿ     LATIN SMALL LETTER Y WITH DIAERESIS
-    UNDEFINED
+    {0, 0},
 };
+
+bool g_code = false;
+bool g_shift = false;
 
  void setup() {
     // configure I/O pins
@@ -588,14 +324,38 @@ void loop() {
     
     if(Serial.available() > 0) {
         serial_char = Serial.read();
-        Serial.write(serial_char);
-        // look the character up and type it
-        kb_type(keys[serial_char]);
+        if(serial_char > 127) {
+            Serial.print("Flo du Idiot\n");
+        } else if (serial_char == 'S') {
+            g_shift = true;
+        } else if (serial_char == '#') {
+            g_code = true;
+        } else {
+            Serial.write(serial_char);
+            // look the character up and type it
+            kb_type(keys[serial_char]);
+            g_shift = false;
+            g_code = false;
+        }
     }
-    
-    //kb_transmit(18, 7);
-    //kb_transmit(IN_E, OUT_3);
 }
+
+#define SYNC(DIN) { \
+  while(!digitalRead(DIN)) {}; \
+  if ((DIN == raw_char.in) && (i >= 2)) { \
+    digitalWrite(raw_char.out, HIGH); \
+  } \
+  if (g_shift && DIN == IN_G) { \
+    digitalWrite(OUT_8, HIGH); \
+  } \
+  if (g_code && DIN == IN_H) { \
+    digitalWrite(OUT_8, HIGH); \
+  } \
+  while(digitalRead(DIN)) {}; \
+  digitalWrite(raw_char.out, LOW); \
+  digitalWrite(OUT_8, LOW); \
+}
+
 
 void kb_type(struct key raw_char) {
     // supported char?
@@ -604,29 +364,6 @@ void kb_type(struct key raw_char) {
         return;
     }
 
-    // press modifier keys
-
-    // press basic key
-    kb_transmit(raw_char);
-}
-
-#define SYNC(DIN) { \
-  while(!digitalRead(DIN)) {}; \
-  if ((DIN == raw_char.in) && (i >= 2)) { \
-    digitalWrite(raw_char.out, HIGH); \
-  } \
-  if (raw_char.modifiers.shift && DIN == IN_G) { \
-    digitalWrite(OUT_8, HIGH); \
-  } \
-  if (raw_char.modifiers.code && DIN == IN_H) { \
-    digitalWrite(OUT_8, HIGH); \
-  } \
-  while(digitalRead(DIN)) {}; \
-  digitalWrite(raw_char.out, LOW); \
-  digitalWrite(OUT_8, LOW); \
-}
-
-void kb_transmit(struct key raw_char) {
     for(uint8_t i=0; i<6; ++i) {
         SYNC(IN_H);
         SYNC(IN_G);
@@ -637,6 +374,7 @@ void kb_transmit(struct key raw_char) {
         SYNC(IN_B);
         SYNC(IN_A);
     }
+
     for(uint8_t i=0; i<3; ++i) {
         while(!digitalRead(IN_H)) {};
         while(digitalRead(IN_H)) {};
