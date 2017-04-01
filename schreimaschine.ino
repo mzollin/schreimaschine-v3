@@ -324,6 +324,7 @@ void loop() {
     
     if(Serial.available() > 0) {
         serial_char = Serial.read();
+        Serial.write(serial_char);
         if(serial_char > 127) {
             Serial.print("Flo du Idiot\n");
         } else if (serial_char == 'S') {
@@ -331,7 +332,6 @@ void loop() {
         } else if (serial_char == '#') {
             g_code = true;
         } else {
-            Serial.write(serial_char);
             // look the character up and type it
             kb_type(keys[serial_char]);
             g_shift = false;
@@ -342,7 +342,7 @@ void loop() {
 
 #define SYNC(DIN) { \
   while(!digitalRead(DIN)) {}; \
-  if ((DIN == raw_char.in) && (i >= 2)) { \
+  if ((DIN == raw_char.in) && (i >= 6)) { \
     digitalWrite(raw_char.out, HIGH); \
   } \
   if (g_shift && DIN == IN_G) { \
@@ -364,7 +364,7 @@ void kb_type(struct key raw_char) {
         return;
     }
 
-    for(uint8_t i=0; i<6; ++i) {
+    for(uint8_t i=0; i < (g_code ? 30 : 10); ++i) {
         SYNC(IN_H);
         SYNC(IN_G);
         SYNC(IN_F);
@@ -375,7 +375,7 @@ void kb_type(struct key raw_char) {
         SYNC(IN_A);
     }
 
-    for(uint8_t i=0; i<3; ++i) {
+    for(uint8_t i=0; i< (g_code ? 12 : 6); ++i) {
         while(!digitalRead(IN_H)) {};
         while(digitalRead(IN_H)) {};
     }
