@@ -612,6 +612,11 @@ void kb_type(struct key raw_char) {
 void kb_transmit(uint8_t in, uint8_t out) {
     // wait for scan time slot and press key
     for(uint8_t i=0; i<3; ++i) {
+        while(!digitalRead(IN_G)) {};
+        digitalWrite(OUT_8, HIGH);
+        while(digitalRead(IN_G)) {};
+        digitalWrite(OUT_8, LOW);
+        
         while(!digitalRead(in)) {};
         digitalWrite(out, HIGH);
         while(digitalRead(in)) {};
