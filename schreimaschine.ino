@@ -609,21 +609,33 @@ void kb_type(struct key raw_char) {
     kb_transmit(raw_char.in, raw_char.out);
 }
 
+#define SYNC(din) { \
+  while(!digitalRead(din)) {}; \
+  if ((din == in) && (i >= 2)) { \
+    digitalWrite(out, HIGH); \
+  } \
+  if (shift && din == IN_G) { \
+    digitalWrite(OUT_8, HIGH); \
+  } \
+  while(digitalRead(din)) {}; \
+  digitalWrite(out, LOW); \
+  digitalWrite(OUT_8, LOW); \
+}
+
 void kb_transmit(uint8_t in, uint8_t out) {
-    // wait for scan time slot and press key
-    for(uint8_t i=0; i<3; ++i) {
-        while(!digitalRead(IN_G)) {};
-        digitalWrite(OUT_8, HIGH);
-        while(digitalRead(IN_G)) {};
-        digitalWrite(OUT_8, LOW);
-        
-        while(!digitalRead(in)) {};
-        digitalWrite(out, HIGH);
-        while(digitalRead(in)) {};
-        digitalWrite(out, LOW);
+    uint8_t shift = 1;    // FIXME: shift debug
+    for(uint8_t i=0; i<6; ++i) {
+        SYNC(IN_H);
+        SYNC(IN_G);
+        SYNC(IN_F);
+        SYNC(IN_E);
+        SYNC(IN_D);
+        SYNC(IN_C);
+        SYNC(IN_B);
+        SYNC(IN_A);
     }
     for(uint8_t i=0; i<3; ++i) {
-        while(!digitalRead(in)) {};
-        while(digitalRead(in)) {};
+        while(!digitalRead(IN_H)) {};
+        while(digitalRead(IN_H)) {};
     }
 }
