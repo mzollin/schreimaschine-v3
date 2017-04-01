@@ -9,6 +9,7 @@
 
 #define MOD_NO {.shift = false, .code = false, .kb2 = false}
 #define MOD_SHIFT {.shift = true, .code = false, .kb2 = false}
+#define MOD_CODE {.shift = false, .code = true, .kb2 = false}
 #define MOD_KB2 {.shift = false, .code = false, .kb2 = true}
 #define UNDEFINED {0, 0, MOD_NO}
 
@@ -172,7 +173,7 @@ struct key keys[256] = {
     // ?
     {IN_A, OUT_2, MOD_SHIFT},
     // @
-    {0, 0, MOD_NO},
+    UNDEFINED,
     // A
     {IN_E, OUT_8, MOD_SHIFT},
     // B
@@ -606,24 +607,26 @@ void kb_type(struct key raw_char) {
     // press modifier keys
 
     // press basic key
-    kb_transmit(raw_char.in, raw_char.out);
+    kb_transmit(raw_char);
 }
 
-#define SYNC(din) { \
-  while(!digitalRead(din)) {}; \
-  if ((din == in) && (i >= 2)) { \
-    digitalWrite(out, HIGH); \
+#define SYNC(DIN) { \
+  while(!digitalRead(DIN)) {}; \
+  if ((DIN == raw_char.in) && (i >= 2)) { \
+    digitalWrite(raw_char.out, HIGH); \
   } \
-  if (shift && din == IN_G) { \
+  if (raw_char.modifiers.shift && DIN == IN_G) { \
     digitalWrite(OUT_8, HIGH); \
   } \
-  while(digitalRead(din)) {}; \
-  digitalWrite(out, LOW); \
+  if (raw_char.modifiers.code && DIN == IN_H) { \
+    digitalWrite(OUT_8, HIGH); \
+  } \
+  while(digitalRead(DIN)) {}; \
+  digitalWrite(raw_char.out, LOW); \
   digitalWrite(OUT_8, LOW); \
 }
 
-void kb_transmit(uint8_t in, uint8_t out) {
-    uint8_t shift = 1;    // FIXME: shift debug
+void kb_transmit(struct key raw_char) {
     for(uint8_t i=0; i<6; ++i) {
         SYNC(IN_H);
         SYNC(IN_G);
