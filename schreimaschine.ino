@@ -1,4 +1,4 @@
-/**************************************
+  /**************************************
  * schreimaschine mercedes 160 / AX160
  * compiler & freelancer @ CCCZH
  * 11.03.17
@@ -292,6 +292,7 @@ struct key keys[128] = {
 };
 
 bool g_code = false;
+bool g_code_override = false;
 bool g_shift = false;
 
  void setup() {
@@ -331,24 +332,35 @@ void loop() {
             g_shift = true;
         } else if (serial_char == '#') {
             g_code = true;
+        } else if (serial_char == '$') {
+            if (g_code_override) {
+                g_code_override = false;
+                Serial.print("code OFF\n");
+            } else {
+                g_code_override = true;
+                Serial.print("code ON\n");          
+            }
         } else {
             // look the character up and type it
             kb_type(keys[serial_char]);
             g_shift = false;
             g_code = false;
         }
+    } else {
+        kb_type(keys[0]);
     }
 }
 
+#define G_CODE (g_code || g_code_override)
 #define SYNC(DIN) { \
   while(!digitalRead(DIN)) {}; \
-  if ((DIN == raw_char.in) && (i >= 6)) { \
+  if ((raw_char.in != 0) && (DIN == raw_char.in) && (i >= 6)) { \
     digitalWrite(raw_char.out, HIGH); \
   } \
   if (g_shift && DIN == IN_G) { \
     digitalWrite(OUT_8, HIGH); \
   } \
-  if (g_code && DIN == IN_H) { \
+  if (G_CODE && DIN == IN_H) { \
     digitalWrite(OUT_8, HIGH); \
   } \
   while(digitalRead(DIN)) {}; \
@@ -358,13 +370,7 @@ void loop() {
 
 
 void kb_type(struct key raw_char) {
-    // supported char?
-    if(!raw_char.in) {
-        Serial.print("Flo du Idiot\n");
-        return;
-    }
-
-    for(uint8_t i=0; i < (g_code ? 30 : 10); ++i) {
+    for(uint8_t i=0; i < (G_CODE ? 30 : 10); ++i) {
         SYNC(IN_H);
         SYNC(IN_G);
         SYNC(IN_F);
@@ -375,7 +381,7 @@ void kb_type(struct key raw_char) {
         SYNC(IN_A);
     }
 
-    for(uint8_t i=0; i< (g_code ? 12 : 6); ++i) {
+    for(uint8_t i=0; i< (G_CODE ? 12 : 6); ++i) {
         while(!digitalRead(IN_H)) {};
         while(digitalRead(IN_H)) {};
     }
