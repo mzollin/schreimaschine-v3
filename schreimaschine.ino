@@ -8,24 +8,24 @@
 #include <stdbool.h>
 
 // define selector inputs coming from keyboard controller
-const uint8_t IN_A = 14;
-const uint8_t IN_B = 15;
-const uint8_t IN_C = 16;
-const uint8_t IN_D = 17;
-const uint8_t IN_E = 18;
-const uint8_t IN_F = 19;
-const uint8_t IN_G = 10;
-const uint8_t IN_H = 11;
+const uint8_t IN_A = 14;  // A0
+const uint8_t IN_B = 15;  // A1
+const uint8_t IN_C = 16;  // A2
+const uint8_t IN_D = 17;  // A3
+const uint8_t IN_E = 18;  // A4
+const uint8_t IN_F = 19;  // A5
+const uint8_t IN_G = 10;  // D10
+const uint8_t IN_H = 11;  // D11
 
 // define key outputs going back to keyboard controller
-const uint8_t OUT_1 = 2;
-const uint8_t OUT_2 = 3;
-const uint8_t OUT_3 = 4;
-const uint8_t OUT_4 = 5;
-const uint8_t OUT_5 = 6;
-const uint8_t OUT_6 = 7;
-const uint8_t OUT_7 = 8;
-const uint8_t OUT_8 = 9;
+const uint8_t OUT_1 = 2;  // D2
+const uint8_t OUT_2 = 3;  // D3
+const uint8_t OUT_3 = 4;  // D4
+const uint8_t OUT_4 = 5;  // D5
+const uint8_t OUT_5 = 6;  // D6
+const uint8_t OUT_6 = 7;  // D7
+const uint8_t OUT_7 = 8;  // D8
+const uint8_t OUT_8 = 9;  // D9
 
 struct key {
     uint8_t in;
